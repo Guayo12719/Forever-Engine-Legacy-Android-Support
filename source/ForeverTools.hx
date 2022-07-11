@@ -12,18 +12,31 @@ import sys.FileSystem;
 **/
 class ForeverTools
 {
+	public static var menuNumba:Int;
 	// set up maps and stuffs
 	public static function resetMenuMusic(resetVolume:Bool = false)
 	{
 		// make sure the music is playing
 		if (((FlxG.sound.music != null) && (!FlxG.sound.music.playing)) || (FlxG.sound.music == null))
 		{
-			var song = (Init.trueSettings.get("Custom Titlescreen") ? Paths.music('foreverMenu') : Paths.music('freakyMenu'));
-			FlxG.sound.playMusic(song, (resetVolume) ? 0 : 0.7);
+			
+			var song = (Paths.music(''));
+			menuNumba = FlxG.random.int(1, 4);
+			
+			switch (menuNumba)
+			{
+				case 2, 4, 6:
+					song = (Paths.music('menu/freakyMenuDRAZ'));
+					FlxG.sound.playMusic(song, (resetVolume) ? 0 : 0.7);
+				default:
+					song = (Paths.music('menu/freakyMenu'));
+					FlxG.sound.playMusic(song, (resetVolume) ? 0 : 0.7);
+					
+			}
 			if (resetVolume)
 				FlxG.sound.music.fadeIn(4, 0, 0.7);
 			// placeholder bpm
-			Conductor.changeBPM(102);
+			Conductor.changeBPM(160);
 		}
 		//
 	}
@@ -32,10 +45,10 @@ class ForeverTools
 			?defaultChangeableSkin:String = 'default', ?defaultBaseAsset:String = 'base'):String
 	{
 		var realAsset = '$baseLibrary/$changeableSkin/$assetModifier/$asset';
-		if (!FileSystem.exists(SUtil.getPath() + Paths.getPath('images/' + realAsset + '.png', IMAGE)))
+		if (!FileSystem.exists(Paths.getPath('images/' + realAsset + '.png', IMAGE)))
 		{
 			realAsset = '$baseLibrary/$defaultChangeableSkin/$assetModifier/$asset';
-			if (!FileSystem.exists(SUtil.getPath() + Paths.getPath('images/' + realAsset + '.png', IMAGE)))
+			if (!FileSystem.exists(Paths.getPath('images/' + realAsset + '.png', IMAGE)))
 				realAsset = '$baseLibrary/$defaultChangeableSkin/$defaultBaseAsset/$asset';
 		}
 
